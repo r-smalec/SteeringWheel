@@ -16,6 +16,8 @@ IO::IO() {
         this->_zeroPositions.p_left = 0;
         this->_zeroPositions.p_right = 0;
     }
+    digitalWrite(SECTION1_EN);
+
     this->enLed(enable::ON);
 }
 
@@ -75,4 +77,8 @@ analog_dev IO::getPositions(void) {
     _positions.p_right = measureAvg(P_RIGHT);
 
     return _positions;
+}
+
+void IO::switchSectionGPIO(void) {
+
 }
