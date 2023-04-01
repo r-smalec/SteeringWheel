@@ -18,9 +18,14 @@ public:
     private:
     analog_dev _zeroPositions;
     analog_dev _positions;
+    static const int _secNo = 4;
+    bool _sectionEn[_secNo];
+    bool _sectionIn[_secNo];
+    bool _buttonsStates[buttonsNames::buttonsCount];
+    bool _buttonsStatesPrev[buttonsNames::buttonsCount];
     int measureAvg(int pin, int repeats, int delay_ms);
     analog_dev getPositions(void);
-    int sec[] = {0, 0, 0, 0};
+    void decodeGPIO(void);
 };
 
 #endif

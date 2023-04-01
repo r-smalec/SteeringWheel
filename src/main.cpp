@@ -6,9 +6,8 @@
 // #include "Keyboard.h"
 
 #define DEBUG
-bool switchesStates[switchesNames::switchesCount];
-IO io;
 
+IO io;
 
 void setup() {
 

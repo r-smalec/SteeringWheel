@@ -29,7 +29,7 @@ typedef enum{
   D_arrow,
   R_paddle,
   L_paddle,
-  switchesCount
-} switchesNames;
+  buttonsCount
+} buttonsNames;
 
 #endif
