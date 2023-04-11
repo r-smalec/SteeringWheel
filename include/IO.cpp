@@ -3,34 +3,36 @@
 #include "definitions.h"
 
 IO::IO() {
-    this->setupIO();
-    this->enLed(enable::OFF);
-    this->enPBox(enable::ON);
-    this->_zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
+    setupIO();
+    enLed(OFF);
+    enPBox(ON);
+    _zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
 
-    if(this->getPBoxConn()) {
-        this->_zeroPositions.p_left = measureAvg(P_RIGHT, 10, 10);
-        this->_zeroPositions.p_right = measureAvg(P_LEFT, 10, 10);
+    if(getPBoxConn()) {
+        _zeroPositions.p_left = measureAvg(P_RIGHT, 10, 10);
+        _zeroPositions.p_right = measureAvg(P_LEFT, 10, 10);
     }
     else {
-        this->_zeroPositions.p_left = 0;
-        this->_zeroPositions.p_right = 0;
+        _zeroPositions.p_left = 0;
+        _zeroPositions.p_right = 0;
     }
-    for(int i = 0; i < _secNo; i++)
-        _sectionEn[i] = _sectionIn[i] = 0;        
+    for(int i = 0; i < _secNo; i++) {
+        _sectionEn[i] = OFF;
+        _sectionIn[i] = OFF;        
+    }
     
-    digitalWrite(SECTION0_EN, enable::OFF);
-    digitalWrite(SECTION1_EN, enable::OFF);
-    digitalWrite(SECTION2_EN, enable::OFF);
-    digitalWrite(SECTION3_EN, enable::OFF);
+    digitalWrite(SECTION0_EN, OFF);
+    digitalWrite(SECTION1_EN, OFF);
+    digitalWrite(SECTION2_EN, OFF);
+    digitalWrite(SECTION3_EN, OFF);
 
-    for(int i = 0; i < buttonsNames::buttonsCount; i++)
-        _buttonsStates[i] = _buttonsStatesPrev[i] = enable::OFF;
+    for(int i = 0; i < buttons_names::buttonsCount; i++) {
+        _buttons[i].state = OFF;
+        _buttons[i].prevState = OFF;
+    }
 
-    this->enLed(enable::ON);
+    IO::enLed(enable::ON);
 }
-
-IO::~IO() {}
 
 void IO::setupIO(void) {
 
@@ -89,25 +91,76 @@ analog_dev IO::getPositions(void) {
 }
 
 void IO::switchSectionGPIO(void) {
-    if(_sectionEn[0] == 1 && _sectionEn[1] == 0 && _sectionEn[2] == 0 && _sectionEn[3] == 0) {
-    _sectionEn[0] = 0; _sectionEn[1] = 1; _sectionEn[2] = 0; _sectionEn[3] = 0;
+    if(_sectionEn[0] == ON && _sectionEn[1] == OFF && _sectionEn[2] == OFF && _sectionEn[3] == OFF) {
+    _sectionEn[0] = OFF; _sectionEn[1] = ON; _sectionEn[2] = OFF; _sectionEn[3] = OFF;
     }
-    else if(_sectionEn[0] == 0 && _sectionEn[1] == 1 && _sectionEn[2] == 0 && _sectionEn[3] == 0) {
-    _sectionEn[0] = 0; _sectionEn[1] = 0; _sectionEn[2] = 1; _sectionEn[3] = 0;
+    else if(_sectionEn[0] == OFF && _sectionEn[1] == ON && _sectionEn[2] == OFF && _sectionEn[3] == OFF) {
+    _sectionEn[0] = OFF; _sectionEn[1] = OFF; _sectionEn[2] = ON; _sectionEn[3] = OFF;
     }
-    else if(_sectionEn[0] == 0 && _sectionEn[1] == 0 && _sectionEn[2] == 1 && _sectionEn[3] == 0) {
-    _sectionEn[0] = 0; _sectionEn[1] = 0; _sectionEn[2] = 0; _sectionEn[3] = 1;
+    else if(_sectionEn[0] == OFF && _sectionEn[1] == OFF && _sectionEn[2] == ON && _sectionEn[3] == OFF) {
+    _sectionEn[0] = OFF; _sectionEn[1] = OFF; _sectionEn[2] = OFF; _sectionEn[3] = ON;
     }
     else {
-    _sectionEn[0] = 1; _sectionEn[1] = 0; _sectionEn[2] = 0; _sectionEn[3] = 0;
+    _sectionEn[0] = ON; _sectionEn[1] = OFF; _sectionEn[2] = OFF; _sectionEn[3] = OFF;
     }
 
     digitalWrite(SECTION0_EN, _sectionEn[0]);
     digitalWrite(SECTION1_EN, _sectionEn[1]);
     digitalWrite(SECTION2_EN, _sectionEn[2]);
     digitalWrite(SECTION3_EN, _sectionEn[3]);
-    _sectionIn[0] = digitalRead(SECTION0_IN);
-    _sectionIn[1] = digitalRead(SECTION1_IN);
-    _sectionIn[2] = digitalRead(SECTION2_IN);
-    _sectionIn[3] = digitalRead(SECTION3_IN);
+    !digitalRead(SECTION0_IN) ? _sectionIn[0] = ON : _sectionIn[0] = OFF;
+    !digitalRead(SECTION1_IN) ? _sectionIn[1] = ON : _sectionIn[1] = OFF;
+    !digitalRead(SECTION2_IN) ? _sectionIn[2] = ON : _sectionIn[2] = OFF;
+    !digitalRead(SECTION3_IN) ? _sectionIn[3] = ON : _sectionIn[3] = OFF;
+
+    IO::decodeGPIO();
+}
+
+void IO::decodeGPIO(void) {
+    // if(_sectionEn[0]) {
+
+    //     _buttons[].state = _sectionIn[0];
+    //     _buttons[].state = _sectionIn[1];
+    //     _buttons[].state = _sectionIn[2];
+    //     _buttons[].state = _sectionIn[3];
+
+    // }
+    // else if(_sectionEn[1]) {
+        
+    //     _buttons[].state = _sectionIn[0];
+    //     _buttons[].state = _sectionIn[1];
+    //     _buttons[].state = _sectionIn[2];
+    //     _buttons[].state = _sectionIn[3];
+
+    // }
+    // else if(_sectionEn[2]) {
+        
+    //     _buttons[].state = _sectionIn[0];
+    //     _buttons[].state = _sectionIn[1];
+    //     _buttons[].state = _sectionIn[2];
+    //     _buttons[].state = _sectionIn[3];
+    // }
+    // else {
+
+    //     _buttons[].state = _sectionIn[0];
+    //     _buttons[].state = _sectionIn[1];
+    //     _buttons[].state = _sectionIn[2];
+    //     _buttons[].state = _sectionIn[3];
+    // }
+    
+    for(int i = 0; i < buttons_names::buttonsCount; i++) {
+        if(_buttons[i].state != _buttons[i].prevState) {
+            if(_buttons[i].state == ON) {
+
+                // _buttons[i].onPush();
+            }
+            else {
+
+                // _buttons[i].onRelease();
+            }
+
+            _buttons[i].prevState = _buttons[i].state;
+        }
+
+    }
 }

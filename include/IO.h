@@ -6,9 +6,9 @@
 
 class IO {
 
-public:
+    public:
     IO();
-    ~IO();
+    ~IO() {};
     void setupIO(void);
     void enLed(enable en);
     void enPBox(enable en);
@@ -19,10 +19,9 @@ public:
     analog_dev _zeroPositions;
     analog_dev _positions;
     static const int _secNo = 4;
-    bool _sectionEn[_secNo];
-    bool _sectionIn[_secNo];
-    bool _buttonsStates[buttonsNames::buttonsCount];
-    bool _buttonsStatesPrev[buttonsNames::buttonsCount];
+    enable _sectionEn[_secNo];
+    enable _sectionIn[_secNo];
+    buttons _buttons[buttons_names::buttonsCount];
     int measureAvg(int pin, int repeats, int delay_ms);
     analog_dev getPositions(void);
     void decodeGPIO(void);

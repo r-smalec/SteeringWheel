@@ -30,6 +30,16 @@ typedef enum{
   R_paddle,
   L_paddle,
   buttonsCount
-} buttonsNames;
+} buttons_names;
+
+class buttons {
+    public:
+    enable state;
+    enable prevState;
+    //onPush(void);
+    //onRelease(void);
+    private:
+
+};
 
 #endif
