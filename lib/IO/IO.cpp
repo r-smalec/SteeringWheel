@@ -5,8 +5,8 @@
 
 IO::IO() {
     setupIO();
-    enLed(OFF);
-    enPBox(ON);
+    enLed(enable::OFF);
+    enPBox(enable::ON);
     _zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
 
     if(getPBoxConn()) {
@@ -18,18 +18,18 @@ IO::IO() {
         _zeroPositions.p_right = 0;
     }
     for(int i = 0; i < _secNo; i++) {
-        _sectionEn[i] = OFF;
-        _sectionIn[i] = OFF;        
+        _sectionEn[i] = enable::OFF;
+        _sectionIn[i] = enable::OFF;        
     }
     
-    digitalWrite(SECTION0_EN, OFF);
-    digitalWrite(SECTION1_EN, OFF);
-    digitalWrite(SECTION2_EN, OFF);
-    digitalWrite(SECTION3_EN, OFF);
+    digitalWrite(SECTION0_EN, enable::OFF);
+    digitalWrite(SECTION1_EN, enable::OFF);
+    digitalWrite(SECTION2_EN, enable::OFF);
+    digitalWrite(SECTION3_EN, enable::OFF);
 
     for(int i = 0; i < buttons_names::buttonsCount; i++) {
-        _buttons[i].state = OFF;
-        _buttons[i].prevState = OFF;
+        _buttons[i].state = enable::OFF;
+        _buttons[i].prevState = enable::OFF;
     }
 
     IO::enLed(enable::ON);

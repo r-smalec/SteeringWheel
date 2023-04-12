@@ -1,6 +1,4 @@
 #include <Arduino.h>
-#include "definitions.h"
-#include "types.h"
 #include "IO.h"
 // #include "Mouse.h"
 // #include "Keyboard.h"
@@ -20,11 +18,11 @@ void setup() {
   #endif
 
   #ifdef DEBUG
-    if(io.getPBoxConn())
+    //if(io.getPBoxConn())
       Serial.println("PBOX connected!");
   #endif
 
-  io._buttons[SW_1].onPush = foo;
+  //io._buttons[SW_1].onPush = foo;
 }
 
 void loop() {

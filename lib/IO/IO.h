@@ -8,7 +8,6 @@ class IO {
 
     public:
     IO();
-    ~IO() {};
     void setupIO(void);
     void enLed(enable en);
     void enPBox(enable en);
