@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <functional>
 #include "IO.h"
 #include "definitions.h"
 
@@ -152,11 +153,11 @@ void IO::decodeGPIO(void) {
         if(_buttons[i].state != _buttons[i].prevState) {
             if(_buttons[i].state == ON) {
 
-                // _buttons[i].onPush();
+                _buttons[i].onPush();
             }
             else {
 
-                // _buttons[i].onRelease();
+                _buttons[i].onRelease();
             }
 
             _buttons[i].prevState = _buttons[i].state;

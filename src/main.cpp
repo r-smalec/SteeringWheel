@@ -9,6 +9,10 @@
 
 IO io;
 
+int foo(void) {
+  return 0;
+}
+
 void setup() {
 
   #ifdef DEBUG
@@ -19,6 +23,8 @@ void setup() {
     if(io.getPBoxConn())
       Serial.println("PBOX connected!");
   #endif
+
+  io._buttons[SW_1].onPush = foo;
 }
 
 void loop() {

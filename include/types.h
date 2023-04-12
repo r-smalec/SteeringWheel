@@ -36,8 +36,8 @@ class buttons {
     public:
     enable state;
     enable prevState;
-    //onPush(void);
-    //onRelease(void);
+    int (*onPush)(void);
+    int (*onRelease)(void);
     private:
 
 };
