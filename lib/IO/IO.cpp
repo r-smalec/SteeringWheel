@@ -1,7 +1,6 @@
 #include <Arduino.h>
-#include <functional>
 #include "IO.h"
-#include "definitions.h"
+
 
 IO::IO() {
     setupIO();
@@ -109,10 +108,10 @@ void IO::switchSectionGPIO(void) {
     digitalWrite(SECTION1_EN, _sectionEn[1]);
     digitalWrite(SECTION2_EN, _sectionEn[2]);
     digitalWrite(SECTION3_EN, _sectionEn[3]);
-    !digitalRead(SECTION0_IN) ? _sectionIn[0] = ON : _sectionIn[0] = OFF;
-    !digitalRead(SECTION1_IN) ? _sectionIn[1] = ON : _sectionIn[1] = OFF;
-    !digitalRead(SECTION2_IN) ? _sectionIn[2] = ON : _sectionIn[2] = OFF;
-    !digitalRead(SECTION3_IN) ? _sectionIn[3] = ON : _sectionIn[3] = OFF;
+    _sectionIn[0] = !digitalRead(SECTION0_IN) ? ON : OFF;
+    _sectionIn[1] = !digitalRead(SECTION1_IN) ? ON : OFF;
+    _sectionIn[2] = !digitalRead(SECTION2_IN) ? ON : OFF;
+    _sectionIn[3] = !digitalRead(SECTION3_IN) ? ON : OFF;
 
     IO::decodeGPIO();
 }

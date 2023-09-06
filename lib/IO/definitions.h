@@ -16,6 +16,6 @@
 #define P_RIGHT A2      // Right peddal position read
 #define P_LEFT A0       // Left pedal position read
 #define S_WHEEL A1      // Steering wheel position read
-#define WHEEL_LED A3          // LED on steering wheel
+#define WHEEL_LED A3    // LED on steering wheel
 
 #endif
