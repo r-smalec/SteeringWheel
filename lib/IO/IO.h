@@ -14,6 +14,11 @@ class IO {
     bool getPBoxConn(void);
     void switchSectionGPIO(void);
     buttons _buttons[buttons_names::buttonsCount];
+    analog_dev getPositions(void);
+    analog_dev getZeroPositions(void);
+    int s_wheel(void);
+    int p_left(void);
+    int p_right(void);
 
     private:
     analog_dev _zeroPositions;
@@ -22,7 +27,6 @@ class IO {
     enable _sectionEn[_secNo];
     enable _sectionIn[_secNo];
     int measureAvg(int pin, int repeats, int delay_ms);
-    analog_dev getPositions(void);
     void decodeGPIO(void);
 };
 

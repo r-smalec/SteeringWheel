@@ -1,21 +1,11 @@
 #include <Arduino.h>
 #include "IO.h"
 
-
 IO::IO() {
     setupIO();
     enLed(enable::OFF);
     enPBox(enable::ON);
-    //_zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
 
-    if(getPBoxConn()) {
-        _zeroPositions.p_left = measureAvg(P_RIGHT, 10, 10);
-        _zeroPositions.p_right = measureAvg(P_LEFT, 10, 10);
-    }
-    else {
-        _zeroPositions.p_left = 0;
-        _zeroPositions.p_right = 0;
-    }
     for(int i = 0; i < _secNo; i++) {
         _sectionEn[i] = enable::OFF;
         _sectionIn[i] = enable::OFF;        
@@ -66,28 +56,43 @@ bool IO::getPBoxConn(void) {
     return digitalRead(PBOX_CONN);
 }
 
-int IO::measureAvg(int pin, int repeats = 3, int delay_ms = 5) {
+int IO::measureAvg(int pin, int repeats, int delay_ms = 1) {
     int avg = 0;
-    int measure;
+    int measure = 0;
     int i;
     for(i = 0; i < repeats; i++) {
-        delay(delay_ms);
         measure = analogRead(pin);
-        if(avg > INT_MAX - measure)
+        if(avg < INT_MAX - measure)
             avg += measure;
         else
             break;
+        delay(delay_ms);
     }
     return avg / (i + 1);
 }
 
 analog_dev IO::getPositions(void) {
     
-    _positions.s_wheel = measureAvg(S_WHEEL);
-    _positions.p_left = measureAvg(P_LEFT);
-    _positions.p_right = measureAvg(P_RIGHT);
+    _positions.s_wheel = measureAvg(S_WHEEL, 3);
+    _positions.p_left = measureAvg(P_LEFT, 3);
+    _positions.p_right = measureAvg(P_RIGHT, 3);
 
     return _positions;
+}
+
+analog_dev IO::getZeroPositions(void) {
+    
+    _zeroPositions.s_wheel = measureAvg(S_WHEEL, 10);
+    if(getPBoxConn()) {
+        _zeroPositions.p_left = measureAvg(P_LEFT, 10);
+        _zeroPositions.p_right = measureAvg(P_RIGHT, 10);
+    }
+    else {
+        _zeroPositions.p_left = 0;
+        _zeroPositions.p_right = 0;
+    }
+
+    return _zeroPositions;
 }
 
 void IO::switchSectionGPIO(void) {
@@ -163,4 +168,16 @@ void IO::decodeGPIO(void) {
         }
 
     }
+}
+
+int IO::s_wheel(void) {
+    return _positions.s_wheel;
+}
+
+int IO::p_left(void) {
+    return _positions.p_left;
+}
+
+int IO::p_right(void) {
+    return _positions.p_right;
 }

@@ -7,21 +7,17 @@
 
 IO io;
 
-int foo(void) {
-  return 0;
-}
-
 void setup() {
 
   #ifdef DEBUG
     Serial.begin(9600);
-    delay(500);
+    delay(2000);
   #endif
-  
-  //io.setupIO();
 
+  io.getZeroPositions();
+  
   #ifdef DEBUG
-    //if(io.getPBoxConn())
+    if(io.getPBoxConn())
       Serial.println("PBOX connected!");
   #endif
 
@@ -29,28 +25,33 @@ void setup() {
 }
 
 void loop() {
-  delay(1000);
-  Serial.println("DUPA");
-  // io.switchSectionGPIO();
+  analog_dev an;
+  io.switchSectionGPIO();
+  an = io.getPositions();
+  #ifdef DEBUG
+    Serial.print("Sections en ");
+    Serial.print(digitalRead(SECTION0_EN));
+    Serial.print(digitalRead(SECTION1_EN));
+    Serial.print(digitalRead(SECTION2_EN));
+    Serial.println(digitalRead(SECTION3_EN));
 
-  // Serial.print(digitalRead(SECTION0_EN));
-  // Serial.print(digitalRead(SECTION1_EN));
-  // Serial.print(digitalRead(SECTION2_EN));
-  // Serial.println(digitalRead(SECTION3_EN));
+    Serial.print("Sections in ");
+    Serial.print(digitalRead(SECTION0_IN));
+    Serial.print(digitalRead(SECTION1_IN));
+    Serial.print(digitalRead(SECTION2_IN));
+    Serial.println(digitalRead(SECTION3_IN));
+    
+    Serial.println("S wheel / pedals l/r");
+    Serial.print(io.s_wheel());
+    Serial.print(" ");
+    Serial.print(io.p_left());
+    Serial.print(" ");
+    Serial.println(io.p_right());
+  #endif
 
-  // Serial.print(digitalRead(SECTION0_IN));
-  // Serial.print(digitalRead(SECTION1_IN));
-  // Serial.print(digitalRead(SECTION2_IN));
-  // Serial.println(digitalRead(SECTION3_IN));
-
-  // Serial.print(analogRead(P_LEFT));
-  // Serial.println(analogRead(P_RIGHT));
-
-  // Serial.println(analogRead(S_WHEEL));
-
-  // delay(900);
-  // io.enLed(ON);
-  // delay(100);
-  // io.enLed(OFF);
+  delay(900);
+  io.enLed(ON);
+  delay(100);
+  io.enLed(OFF);
 
 }
