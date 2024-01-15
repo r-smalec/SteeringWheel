@@ -15,9 +15,10 @@ void setup() {
 
   #ifdef DEBUG
     Serial.begin(9600);
+    delay(500);
   #endif
   
-  io.setupIO();
+  //io.setupIO();
 
   #ifdef DEBUG
     //if(io.getPBoxConn())
@@ -28,26 +29,28 @@ void setup() {
 }
 
 void loop() {
-  io.switchSectionGPIO();
+  delay(1000);
+  Serial.println("DUPA");
+  // io.switchSectionGPIO();
 
-  Serial.print(digitalRead(SECTION0_EN));
-  Serial.print(digitalRead(SECTION1_EN));
-  Serial.print(digitalRead(SECTION2_EN));
-  Serial.println(digitalRead(SECTION3_EN));
+  // Serial.print(digitalRead(SECTION0_EN));
+  // Serial.print(digitalRead(SECTION1_EN));
+  // Serial.print(digitalRead(SECTION2_EN));
+  // Serial.println(digitalRead(SECTION3_EN));
 
-  Serial.print(digitalRead(SECTION0_IN));
-  Serial.print(digitalRead(SECTION1_IN));
-  Serial.print(digitalRead(SECTION2_IN));
-  Serial.println(digitalRead(SECTION3_IN));
+  // Serial.print(digitalRead(SECTION0_IN));
+  // Serial.print(digitalRead(SECTION1_IN));
+  // Serial.print(digitalRead(SECTION2_IN));
+  // Serial.println(digitalRead(SECTION3_IN));
 
-  Serial.print(analogRead(P_LEFT));
-  Serial.println(analogRead(P_RIGHT));
+  // Serial.print(analogRead(P_LEFT));
+  // Serial.println(analogRead(P_RIGHT));
 
-  Serial.println(analogRead(S_WHEEL));
+  // Serial.println(analogRead(S_WHEEL));
 
-  delay(900);
-  io.enLed(ON);
-  delay(100);
-  io.enLed(OFF);
+  // delay(900);
+  // io.enLed(ON);
+  // delay(100);
+  // io.enLed(OFF);
 
 }

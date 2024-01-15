@@ -6,7 +6,7 @@ IO::IO() {
     setupIO();
     enLed(enable::OFF);
     enPBox(enable::ON);
-    _zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
+    //_zeroPositions.s_wheel = measureAvg(S_WHEEL, 10, 10);
 
     if(getPBoxConn()) {
         _zeroPositions.p_left = measureAvg(P_RIGHT, 10, 10);
